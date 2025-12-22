@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import './Portfolio.css';
-import jsLogo from '../../assets/experience_logo/JavaScript.png'
+import jsLogo from '../../assets/experience_logo/javaScript.png'
 import reactLogo from '../../assets/experience_logo/React.png'
 import htmlLogo from '../../assets/experience_logo/HTML5.png'
 import cssLogo from '../../assets/experience_logo/CSS3.png'
