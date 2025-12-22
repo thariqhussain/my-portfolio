@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Portfolio.css';
 import jsLogo from '../../assets/experience_logo/javascript.png'
 import reactLogo from '../../assets/experience_logo/React.png'
@@ -63,8 +63,8 @@ export default function Portfolio() {
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          // Use documentElement.scrollTop for better mobile cross-browser support
-          setScrollY(window.pageYOffset || document.documentElement.scrollTop);
+          setScrollY(window.scrollY);
+          setScrollX(window.scrollX);
           ticking = false;
         });
         ticking = true;
@@ -197,6 +197,16 @@ export default function Portfolio() {
               <button onClick={() => scrollToSection('projects')} className="btn-primary">View My Work </button>
               <button onClick={() => scrollToSection('contact')} className="btn-secondary">Get in Touch</button>
             </div>
+          </div>
+        </div>
+        <div className='skills-and-exp'>
+          <div>
+            <h2>5+</h2>
+            <p>years of experience</p>
+          </div>
+          <div>
+            <h2>10k+</h2>
+            <p>Hours worked</p>
           </div>
         </div>
       </section>
