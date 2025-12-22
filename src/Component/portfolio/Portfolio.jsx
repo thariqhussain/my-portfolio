@@ -268,7 +268,8 @@ export default function Portfolio() {
                 icon: '⚡',
                 color: '#3b82f6',
                 hasCarousel: true,
-                images: electroManiacImages
+                images: electroManiacImages,
+                link: 'https://electro-maniac-landing-page.vercel.app/'
               },
               {
                 title: 'Invoice Generator',
@@ -277,7 +278,8 @@ export default function Portfolio() {
                 icon: '📄',
                 color: '#10b981',
                 hasCarousel: true,
-                images: invoiceImages
+                images: invoiceImages,
+                link: ''
               }
             ].map((proj, idx) => (
               <div key={proj.title} className="project-card-modern">
@@ -301,7 +303,10 @@ export default function Portfolio() {
                   </div>
 
                   <div className="project-footer">
-                    <button className="project-btn-view">
+                    <button 
+                      className="project-btn-view"
+                      onClick={() => window.open(proj.link, '_blank')}
+                    >
                       View Project
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M7 17L17 7M17 7H7M17 7V17"/>

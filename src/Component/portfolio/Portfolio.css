@@ -29,9 +29,9 @@ body {
   width: 100vw;
   height: 100vh;
   z-index: -1;
-  /* background: radial-gradient(circle at center, #020617 0%, #000000 100%); */
-  background-color: #130f40;
-background-image: linear-gradient(315deg, #130f40 0%, #000000 74%);
+  background: radial-gradient(circle at center, #020617 0%, #000000 100%);
+  /* background-color: #130f40;
+  background-image: linear-gradient(315deg, #130f40 0%, #000000 74%); */
   overflow: hidden;
 }
 
