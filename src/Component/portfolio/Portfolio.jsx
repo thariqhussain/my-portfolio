@@ -191,7 +191,7 @@ export default function Portfolio() {
           <div className="hero-content">
             <h1 className="hero-title">Frontend<br />Developer</h1>
             <p className="hero-subtitle">
-              Hi! I'm Thariq Hussain. A Frontend Developer specialized in building high-performance, responsive web solutions with modern technologies.
+              I build fast, responsive, and user-focused web experiences with modern technologies. Focused on performance, clean interfaces, and seamless user experiences.          
             </p>
             <div className="hero-buttons">
               <button onClick={() => scrollToSection('projects')} className="btn-primary">View My Work </button>
