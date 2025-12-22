@@ -28,6 +28,8 @@ import homePage2Img from '../../assets/electromaniac_images/homePage2.png'
 import scrollSectionImg from '../../assets/electromaniac_images/scrollSection.png'
 import scrollSection2Img from '../../assets/electromaniac_images/scrollSection2.png'
 
+import GalaxyBackground from '../GalaxyBackground';
+
 const invoiceImages = [
   entitiesImg, 
   entitiesImg2, 
@@ -89,13 +91,13 @@ export default function Portfolio() {
 }, []);
 
   // Image carousel effect - add this after your other useEffect hooks
-    useEffect(() => {
-      const interval = setInterval(() => {
-        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % invoiceImages.length);
-      }, 1500);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % 6); // Both arrays have 5-6 images
+    }, 1500);
 
-      return () => clearInterval(interval);
-    }, []);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
   const observerOptions = {
@@ -119,25 +121,15 @@ export default function Portfolio() {
   return () => observer.disconnect();
   }, []);
 
-  // Generate stars once and reuse them for performance
-  const stars = useMemo(() => {
-    return Array.from({ length: 100 }).map((_, i) => ({
-      id: i,
-      baseX: Math.random() * 100,
-      baseY: Math.random() * 100,
-      size: Math.random() * 2 + 0.3,
-      opacity: Math.random() * 0.7 + 0.1,
-      // Ensure speeds are positive for top-left to bottom-right direction
-      floatSpeed: Math.random() * 0.2 + 0.05, 
-      scrollSensitivity: Math.random() * 0.05 + 0.01
-    }));
-  }, []);
 
   const scrollToSection = (id) => {
     setIsMenuOpen(false);
     const element = document.getElementById(id);
     if (element) {
-      const offset = 80; // Navbar height
+      let offset = 80; // Default navbar height
+      if (id === 'projects') {
+        offset = 2; // Extra offset for projects section
+      }
       const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
       window.scrollTo({
         top: elementPosition - offset,
@@ -152,46 +144,11 @@ export default function Portfolio() {
     </a>
   );
 
-  const getStarPosition = (star) => {
-    // 1. Idle Movement: Linear diagonal movement based on time
-    const idleMovement = time * star.floatSpeed;
-
-    // 2. Scroll Movement: Extra push based on scroll position
-    const scrollMovement = scrollY * star.scrollSensitivity;
-
-    // Combine both for a "speeding up" effect during scroll
-    const totalOffset = idleMovement + scrollMovement;
-
-    // Calculate X and Y (same offset creates a 45-degree slant)
-    // Adding star.baseX/Y ensures they start at different random spots
-    const finalX = (star.baseX + totalOffset) % 100;
-    const finalY = (star.baseY + totalOffset) % 100;
-
-    return { x: finalX, y: finalY };
-  };
-
   return (
     <div className="portfolio-container">
       {/* Dynamic Falling Stars Background */}
       <div className="background-fixed">
-        <svg width="100%" height="100%" className="stars-svg">
-          {stars.map((star) => {
-            const pos = getStarPosition(star);
-            return (
-              <circle
-                key={star.id}
-                cx={`${pos.x}%`}
-                cy={`${pos.y}%`}
-                r={star.size}
-                fill="white"
-                fillOpacity={star.opacity}
-                style={{
-                  transition: 'cx 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94), cy 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-                }}
-              />
-            );
-          })}
-        </svg>
+        <GalaxyBackground scrollY={scrollY} />
       </div>
 
       {/* Navigation */}
@@ -200,13 +157,12 @@ export default function Portfolio() {
           <div className="logo" onClick={() => scrollToSection('home')}>
             <span>THARIQ HUSSAIN</span>
           </div>
-          
           <div className="nav-links-desktop">
-            {['Home', 'About', 'Stack', 'Projects', 'Contact'].map(item => (
+            {['About', 'Stack', 'Projects', 'Contact'].map(item => (
               <button
                 key={item}
-                onClick={() => scrollToSection(item.toLowerCase())}
-                className={`nav-link ${activeSection === item.toLowerCase() ? 'active' : ''}`}
+                onClick={() => scrollToSection(item === 'About' ? 'home' : item.toLowerCase())}
+                className={`nav-link ${activeSection === (item === 'About' ? 'home' : item.toLowerCase()) ? 'active' : ''}`}
               >
                 {item}
               </button>
@@ -216,10 +172,10 @@ export default function Portfolio() {
 
         {isMenuOpen && (
           <div className="nav-links-mobile">
-            {['Home', 'About', 'Stack', 'Projects', 'Contact'].map(item => (
+            {['About', 'Stack', 'Projects', 'Contact'].map(item => (
               <button
                 key={item}
-                onClick={() => scrollToSection(item.toLowerCase())}
+                onClick={() => scrollToSection(item === 'About' ? 'home' : item.toLowerCase())}
                 className="nav-link-mobile"
               >
                 {item}
@@ -301,40 +257,63 @@ export default function Portfolio() {
                 tech: ['React', 'JavaScript', 'CSS3'],
                 icon: '⚡',
                 color: '#3b82f6',
-                hasCarousel: false
+                hasCarousel: true,
+                images: electroManiacImages
               },
               {
                 title: 'Invoice Generator',
                 desc: 'Professional invoice creation tool with customizable templates, real-time preview and PDF export.',
-                tech: ['React', 'React-Router', 'Javascript', 'HTML', 'CSS', 'PDF renderer', 'mermaid.js',],
+                tech: ['React', 'React-Router', 'Javascript', 'HTML', 'CSS', 'PDF renderer', 'mermaid.js'],
                 icon: '📄',
                 color: '#10b981',
-                hasCarousel: true
+                hasCarousel: true,
+                images: invoiceImages
               }
             ].map((proj, idx) => (
               <div key={proj.title} className="project-card-modern">
-                <div className="project-card-header">
-                  <div className="project-icon" style={{ color: proj.color }}>
-                    {proj.icon}
+                {/* LEFT SIDE - Content */}
+                <div className="project-card-content">
+                  <div>
+                    <div className="project-card-header">
+                      <div className="project-icon" style={{ color: proj.color }}>
+                        {proj.icon}
+                      </div>
+                      <h3 className="project-card-title">{proj.title}</h3>
+                    </div>
+
+                    <p className="project-card-desc">{proj.desc}</p>
+
+                    <div className="project-tech-stack">
+                      {proj.tech.map(t => (
+                        <span key={t} className="tech-badge">{t}</span>
+                      ))}
+                    </div>
                   </div>
-                  <h3 className="project-card-title">{proj.title}</h3>
+
+                  <div className="project-footer">
+                    <button className="project-btn-view">
+                      View Project
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                      </svg>
+                    </button>
+                  </div>
                 </div>
 
-                <p className="project-card-desc">{proj.desc}</p>
-
-                {proj.hasCarousel && (
-                  <div className="project-preview">
+                {/* RIGHT SIDE - Images */}
+                {proj.hasCarousel ? (
+                  <div className="project-card-preview">
                     <div className="carousel-container">
-                      {invoiceImages.map((img, index) => (
+                      {proj.images.map((img, index) => (
                         <img
                           key={index}
                           src={img}
-                          alt={`Invoice template ${index + 1}`}
+                          alt={`${proj.title} screenshot ${index + 1}`}
                           className={`carousel-image ${index === currentImageIndex ? 'active' : ''}`}
                         />
                       ))}
                       <div className="carousel-indicators">
-                        {invoiceImages.map((_, index) => (
+                        {proj.images.map((_, index) => (
                           <div
                             key={index}
                             className={`indicator-dot ${index === currentImageIndex ? 'active' : ''}`}
@@ -343,21 +322,11 @@ export default function Portfolio() {
                       </div>
                     </div>
                   </div>
+                ) : (
+                  <div className="project-card-preview">
+                    <span style={{ color: '#94a3b8', fontSize: '14px' }}>Preview Coming Soon</span>
+                  </div>
                 )}
-                <div className="project-tech-stack">
-                  {proj.tech.map(t => (
-                    <span key={t} className="tech-badge">{t}</span>
-                  ))}
-                </div>
-
-                <div className="project-footer">
-                  <button className="project-btn-view">
-                    View Project
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                    </svg>
-                  </button>
-                </div>
 
                 <div className="project-card-border"></div>
               </div>
@@ -367,19 +336,23 @@ export default function Portfolio() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="contact-section">
-        <div className="section-container contact-center">
-          <h2 className="contact-title">Let's Connect</h2>
-          <div className="social-links">
-            <MenuItem label="GitHub" href="#" icon={<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>} />
-            <MenuItem label="LinkedIn" href="#" icon={<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.475-2.236-1.986-2.236-1.081 0-1.722.722-2.004 1.418-.103.249-.129.597-.129.946v5.441h-3.554s.05-8.836 0-9.754h3.554v1.391c.432-.668 1.204-1.618 2.928-1.618 2.136 0 3.745 1.395 3.745 4.393v5.588zM5.337 9.433c-1.144 0-1.915-.758-1.915-1.706 0-.968.77-1.707 1.96-1.707 1.188 0 1.914.739 1.939 1.706 0 .948-.751 1.707-1.984 1.707zm1.586 11.019H3.73V9.694h3.193v10.758zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>} />
+        <section id="contact" className="contact-section">
+          <div className="section-container contact-center">
+            <h2 className="contact-title">Let's Work Together</h2>
+            <p className="contact-subtitle">
+              I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
+            </p>
+            <div className="social-links">
+              <MenuItem label="GitHub" href="https://github.com/yourusername" icon={<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>} />
+              <MenuItem label="LinkedIn" href="https://linkedin.com/in/yourusername" icon={<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.475-2.236-1.986-2.236-1.081 0-1.722.722-2.004 1.418-.103.249-.129.597-.129.946v5.441h-3.554s.05-8.836 0-9.754h3.554v1.391c.432-.668 1.204-1.618 2.928-1.618 2.136 0 3.745 1.395 3.745 4.393v5.588zM5.337 9.433c-1.144 0-1.915-.758-1.915-1.706 0-.968.77-1.707 1.96-1.707 1.188 0 1.914.739 1.939 1.706 0 .948-.751 1.707-1.984 1.707zm1.586 11.019H3.73V9.694h3.193v10.758zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>} />
+              <MenuItem label="Twitter" href="https://twitter.com/yourusername" icon={<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>} />
+            </div>
+            <div className="contact-box">
+              <p className="contact-email">📧 <span>thariqhussain5@gmail.com</span></p>
+              <p className="contact-status">Available for freelance and full-time opportunities</p>
+            </div>
           </div>
-          <div className="contact-box">
-            <p className="contact-email">ðŸ“§ <span>thariq.hussain@example.com</span></p>
-            <p className="contact-status">Open for freelance and full-time opportunities</p>
-          </div>
-        </div>
-      </section>
+        </section>
 
       <footer className="footer">
         <p>Â© 2025 Thariq Hussain. Built with React.</p>
