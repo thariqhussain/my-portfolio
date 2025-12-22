@@ -269,13 +269,6 @@ section {
   font-weight: 500;
 }
 
-/* Responsive */
-@media (max-width: 900px) {
-  .stack-bento {
-    grid-template-columns: 1fr;
-  }
-}
-
 
 
 .projects-section {
@@ -513,32 +506,6 @@ section {
   opacity: 1;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .projects-section {
-    padding: 100px 0;
-  }
-
-  .projects-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-
-  .projects-title {
-    font-size: 36px;
-  }
-
-  .project-card-modern {
-    padding: 25px;
-    grid-template-columns: 1fr; /* Stack content and images vertically */
-    gap: 20px;
-    min-height: auto;
-  }
-  
-  .project-card-preview {
-    min-height: 250px;
-  }
-}
 
 /* Animation */
 @keyframes fadeInDown {
@@ -759,15 +726,6 @@ section {
 }
 
 
-/* Mobile Responsive */
-@media (max-width: 768px) {
-  .nav-links-desktop { display: none; }
-  .project-content { grid-template-columns: 1fr; }
-  .section-container { padding: 0 24px; }
-  .hero-title { font-size: 50px; }
-}
-
-
 
 .stack-cloud {
   display: flex;
@@ -951,3 +909,67 @@ html {
   width: 24px;
   border-radius: 4px;
 }
+
+
+
+/* Fix the Project Cards for Mobile */
+@media (max-width: 768px) {
+  .projects-grid {
+    grid-template-columns: 1fr !important; /* Force single column */
+    padding: 0 10px;
+  }
+
+  .project-card-modern {
+    grid-template-columns: 1fr !important; /* Stack content and image */
+    height: auto;
+    min-height: unset;
+    padding: 20px;
+  }
+
+  .project-card-preview {
+    min-height: 250px; /* Shorter preview on mobile */
+    order: -1; /* Move image above text for better mobile flow */
+  }
+
+  /* Fix Hero Section */
+  .hero-title {
+    font-size: 60px !important; /* Smaller title */
+    line-height: 1.1;
+  }
+
+  .hero-buttons {
+    flex-direction: column; /* Stack buttons */
+    width: 100%;
+  }
+
+  /* Fix Stack/Skills section */
+  .tech-section-seperation {
+    flex-direction: column !important; /* Stack 'Frontend' title and icons */
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .tech-section-seperation h2 {
+    font-size: 2.5rem !important;
+    margin-bottom: 10px;
+  }
+
+  .tech-skills {
+    width: 100% !important;
+    padding: 0;
+  }
+
+  .tech-skills ul {
+    gap: 15px; /* Tighter gap for small screens */
+  }
+}
+
+/* Ensure the background canvas doesn't create scrollbars */
+/* .background-fixed {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+} */

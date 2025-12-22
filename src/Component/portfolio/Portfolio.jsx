@@ -63,8 +63,8 @@ export default function Portfolio() {
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          setScrollY(window.scrollY);
-          setScrollX(window.scrollX);
+          // Use documentElement.scrollTop for better mobile cross-browser support
+          setScrollY(window.pageYOffset || document.documentElement.scrollTop);
           ticking = false;
         });
         ticking = true;
@@ -128,7 +128,7 @@ export default function Portfolio() {
     if (element) {
       let offset = 80; // Default navbar height
       if (id === 'projects') {
-        offset = 2; // Extra offset for projects section
+        offset = 30; // Extra offset for projects section
       }
       const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
       window.scrollTo({
