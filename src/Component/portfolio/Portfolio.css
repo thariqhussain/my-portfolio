@@ -636,6 +636,11 @@ section {
   margin-top: 40px;
   max-width: 1400px;
 }
+/* .projects-grid img {
+  height: 65px;
+  width: 65px;
+  object-fit: contain;
+} */
 
 @media (min-width: 768px) {
   .projects-grid {
@@ -769,6 +774,10 @@ section {
   border-radius: 12px;
   transition: all 0.3s ease;
   flex-shrink: 0;
+}
+.project-icon img {
+  height: 65px;
+  width: 65px;
 }
 
 @media (min-width: 768px) {

@@ -28,6 +28,9 @@ import homePage2Img from '../../assets/electromaniac_images/homePage2.png'
 import scrollSectionImg from '../../assets/electromaniac_images/scrollSection.png'
 import scrollSection2Img from '../../assets/electromaniac_images/scrollSection2.png'
 
+import electroManiacLogo from '../../assets/projectsLogo/electromaniac.png'
+import invoiceGenLogo from '../../assets/projectsLogo/invoice.png'
+
 import GalaxyBackground from '../GalaxyBackground';
 
 const invoiceImages = [
@@ -358,7 +361,7 @@ export default function Portfolio() {
                 title: 'Electromaniac',
                 desc: 'A dynamic electronics project showcasing modern React patterns and interactive UI components.',
                 tech: ['React', 'JavaScript', 'CSS3'],
-                icon: '⚡',
+                icon: <img src={electroManiacLogo} alt='electro-maniac-logo' />,
                 color: '#3b82f6',
                 hasCarousel: true,
                 images: electroManiacImages,
@@ -368,7 +371,7 @@ export default function Portfolio() {
                 title: 'Invoice Generator',
                 desc: 'Professional invoice creation tool with customizable templates, real-time preview and PDF export.',
                 tech: ['React', 'React-Router', 'Javascript', 'HTML', 'CSS', 'PDF renderer'],
-                icon: '📄',
+                icon: <img src={invoiceGenLogo} alt='invoice-generator-logo' />,
                 color: '#10b981',
                 hasCarousel: true,
                 images: invoiceImages,
