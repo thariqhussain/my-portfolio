@@ -260,6 +260,7 @@ body {
 .section-container {
   max-width: 1400px;
   margin: 0 auto;
+  margin-bottom: 250px;
   padding: 0 var(--spacing-sm);
   width: 100%;
 }
@@ -384,7 +385,6 @@ section {
   grid-template-columns: 1fr 1fr;
   gap: 30px;
   margin-bottom: 0;
-  margin-right: 0;
   width: 100%;
 }
 
@@ -418,6 +418,7 @@ section {
   text-align: left;
   margin: 0;
   line-height: 0.95;
+  margin-right: 100px;
 }
 
 @media (min-width: 768px) {
@@ -433,6 +434,7 @@ section {
   text-align: left;
   margin: 0;
   line-height: 1;
+  margin-right: 100px;
 }
 
 @media (min-width: 768px) {

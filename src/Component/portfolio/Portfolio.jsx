@@ -372,7 +372,7 @@ export default function Portfolio() {
                 color: '#10b981',
                 hasCarousel: true,
                 images: invoiceImages,
-                link: ''
+                link: 'https://invoice-generator-local-state.vercel.app/signin'
               }
             ].map((proj) => (
               <div key={proj.title} className="project-card-modern">
